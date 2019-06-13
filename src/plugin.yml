@@ -6,3 +6,6 @@ commands:
     xpd:
         description: turns 30 experience points into 1 diamond
         usage: /xpd <max/amount of diamonds to get>
+    esteal:
+        description: In progress
+        usage: /esteal

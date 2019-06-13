@@ -24,8 +24,8 @@ public class XPDCommand implements CommandExecutor {
 		
 		int currentLevel = player.getLevel();
 		
-		if (currentLevel < 30) {
-			player.sendMessage("You need at least 30 levels to get a diamond!");
+		if (currentLevel < 10) {
+			player.sendMessage("You need at least 10 levels to get a diamond!");
 			return true;
 		}
 		
@@ -85,12 +85,12 @@ public class XPDCommand implements CommandExecutor {
 	}
 
 	private double calculateDiamonds(int currentLevel) {
-		return (currentLevel / 30.0);
+		return (currentLevel / 10.0);
 	}
 	
 	private int getNewLevel(int currentLevel, int diamondsToGive) {
 		
-		return currentLevel - (diamondsToGive * 30);
+		return currentLevel - (diamondsToGive * 10);
 		
 	}
 	
@@ -114,7 +114,7 @@ public class XPDCommand implements CommandExecutor {
 			}
 			
 			// determine how much xp to give back
-			levelsToGive = (totalReturnedDiamonds * 30) + newLevel;
+			levelsToGive = (totalReturnedDiamonds * 10) + newLevel;
 			player.sendMessage(newLevel + " levels were not used because you don't have enough inventory space");
 			
 		}
