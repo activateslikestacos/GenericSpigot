@@ -1,0 +1,8 @@
+name: FreeRepair
+main: club.vvcr.freerepair.FreeRepair
+version: 1.0
+api-version: 1.13
+commands:
+    xpd:
+        description: turns 30 experience points into 1 diamond
+        usage: /xpd <max/amount of diamonds to get>
