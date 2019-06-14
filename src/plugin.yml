@@ -9,3 +9,6 @@ commands:
     esteal:
         description: In progress
         usage: /esteal
+    trash:
+        description: opens a trash inventory
+        usage: /trash

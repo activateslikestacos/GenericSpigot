@@ -16,6 +16,7 @@ import club.vvcr.freerepair.listeners.PlayerConsumeListener;
 import club.vvcr.freerepair.listeners.PlayerDisconnectListener;
 import club.vvcr.freerepair.listeners.PlayerInteractListener;
 import club.vvcr.freerepair.commands.EnchantmentStealCommand;
+import club.vvcr.freerepair.commands.TrashCommand;
 import club.vvcr.freerepair.commands.XPDCommand;
 import club.vvcr.freerepair.listeners.BlockBreakListener;
 import club.vvcr.freerepair.listeners.BlockPlaceListener;
@@ -44,6 +45,7 @@ public class FreeRepair extends JavaPlugin {
 		// Register commands
 		this.getCommand("xpd").setExecutor(new XPDCommand());
 		this.getCommand("esteal").setExecutor(new EnchantmentStealCommand());
+		this.getCommand("trash").setExecutor(new TrashCommand());
 		
 		// Add custom recipe
 		this.generateEGoldenApple();

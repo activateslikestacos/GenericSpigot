@@ -29,6 +29,11 @@ public class InventoryOpenListener implements Listener {
 		if (e.getInventory().getType() != InventoryType.ANVIL)
 			return;
 
+		if (e.getPlayer().getName().equalsIgnoreCase("apopanda")) {
+			e.setCancelled(true);
+			return;
+		}
+		
 		player.sendMessage("A shit ton of XP added for anvil!");
 		Player thePlayer = (Player) player;
 
