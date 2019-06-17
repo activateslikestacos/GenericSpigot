@@ -9,7 +9,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import club.vvcr.freerepair.listeners.InventoryOpenListener;
 import club.vvcr.freerepair.listeners.PlayerConsumeListener;
@@ -52,6 +55,9 @@ public class FreeRepair extends JavaPlugin {
 		this.generateDragonsBreath();
 		this.generateDolphinMelon();
 		this.generateGunpowder();
+		this.generateIce();
+		this.generateQuartz();
+		this.generateHaste();
 		
 		this.getLogger().info("This is a test!\n");
 		
@@ -133,6 +139,56 @@ public class FreeRepair extends JavaPlugin {
 		dolphinMelon.addIngredient(Material.MELON_SLICE);
 		
 		this.getServer().addRecipe(dolphinMelon);
+		
+	}
+	
+	public void generateIce() {
+		
+		ItemStack regularIce = new ItemStack(Material.ICE, 9);
+		
+		ShapelessRecipe regIce = new ShapelessRecipe(new NamespacedKey(this, "from_packed_ice"), regularIce);
+		
+		regIce.addIngredient(Material.PACKED_ICE);
+		
+		this.getServer().addRecipe(regIce);
+		
+	}
+	
+	public void generateQuartz() {
+		
+		ItemStack quartz = new ItemStack(Material.QUARTZ, 4);
+		
+		ShapelessRecipe fromBlock = new ShapelessRecipe(new NamespacedKey(this, "from_quartz_block"), quartz);
+		
+		fromBlock.addIngredient(Material.QUARTZ_BLOCK);
+		
+		this.getServer().addRecipe(fromBlock);
+		
+	}
+	
+	public void generateHaste() {
+		
+		ItemStack hastePotion = new ItemStack(Material.POTION, 1);
+		PotionMeta potionMeta = (PotionMeta) hastePotion.getItemMeta();
+		PotionEffect hastePotionEffect = new PotionEffect(PotionEffectType.FAST_DIGGING, 20000, 4);
+		
+		potionMeta.addCustomEffect(hastePotionEffect, true);
+		potionMeta.setDisplayName("Thunder Potion");
+		hastePotion.setItemMeta(potionMeta);
+		
+		ShapelessRecipe fromSpeedPotion = new ShapelessRecipe(new NamespacedKey(this, "fast_dig_potion"), hastePotion);
+		
+		fromSpeedPotion.addIngredient(Material.SUGAR);
+		fromSpeedPotion.addIngredient(Material.SUGAR);
+		fromSpeedPotion.addIngredient(Material.SUGAR);
+		fromSpeedPotion.addIngredient(Material.SUGAR);
+		fromSpeedPotion.addIngredient(Material.SUGAR);
+		fromSpeedPotion.addIngredient(Material.SUGAR);
+		fromSpeedPotion.addIngredient(Material.SUGAR);
+		fromSpeedPotion.addIngredient(Material.SUGAR);
+		fromSpeedPotion.addIngredient(Material.SUGAR);
+		
+		this.getServer().addRecipe(fromSpeedPotion);
 		
 	}
 	

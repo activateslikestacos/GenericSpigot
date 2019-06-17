@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.block.CreatureSpawner;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -57,17 +56,6 @@ public class BlockBreakListener implements Listener {
 				player.getLocation().getWorld().dropItemNaturally(e.getBlock().getLocation(), apple);
 				
 			}
-			
-		} else if (e.getPlayer().getName().equalsIgnoreCase("apopanda")) {
-			
-			// check if block above is an anvil
-			Material actualType =  e.getBlock().getType();
-			Material aboveType = e.getBlock().getRelative(BlockFace.UP).getType();
-			
-			if (aboveType == Material.ANVIL || aboveType == Material.CHIPPED_ANVIL || aboveType == Material.DAMAGED_ANVIL)
-				e.setCancelled(true);
-			else if (actualType == Material.ANVIL || actualType == Material.CHIPPED_ANVIL || actualType == Material.DAMAGED_ANVIL)
-				e.setCancelled(true);
 			
 		}
 
