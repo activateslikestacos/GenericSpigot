@@ -17,77 +17,136 @@ public class EnchantmentStealCommand implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		
+
 		if (!(sender instanceof Player)) {
 			sender.sendMessage("Only players can run this command");
 			return true;
 		}
-		
+
 		Player player = (Player) sender;
-				
+
 		ItemStack inHand = player.getInventory().getItemInMainHand();
 		
 		Map<Enchantment, Integer> enchantments = inHand.getEnchantments();
-		
-		if (enchantments.size() < 1) {
+
+		if (inHand.getType() != Material.ENCHANTED_BOOK && enchantments.size() < 1) {
 			player.sendMessage("There are no enchantments on this item?");
 			return true;
-		}
-		
-		int selectedEnchant = genRandomInt(enchantments.size());
-				
-		if (!player.getInventory().containsAtLeast(new ItemStack(Material.BOOK), 1)) {
-			player.sendMessage("You need a book to store the enchant");
-			return true;
-		}
-		
-		Iterator<Map.Entry<Enchantment,Integer>> it = enchantments.entrySet().iterator();
-		int i = 0;
-		
-		Map.Entry<Enchantment, Integer> pair = null;
-		
-		while (it.hasNext()) {
+		} else if (inHand.getType() == Material.ENCHANTED_BOOK) {
 			
-			pair = (Map.Entry<Enchantment, Integer>)it.next();
+			EnchantmentStorageMeta bookMeta = (EnchantmentStorageMeta) inHand.getItemMeta();
 			
-			if (selectedEnchant <= i) 
-				break;
+			Map<Enchantment, Integer> bookEnchants = bookMeta.getStoredEnchants();
 			
-			i++;
-			
-		}
-		
-		ItemStack bookToGive = new ItemStack(Material.ENCHANTED_BOOK, 1);
-		bookToGive.getItemMeta().addEnchant(pair.getKey(), pair.getValue(), true);
-		
-		EnchantmentStorageMeta bookMeta = (EnchantmentStorageMeta) bookToGive.getItemMeta();
-		bookMeta.addStoredEnchant(pair.getKey(), pair.getValue(), true);
-		bookToGive.setItemMeta(bookMeta);
-		
-		player.getInventory().removeItem(new ItemStack(Material.BOOK, 1));
-		inHand.removeEnchantment(pair.getKey());
-		
-		Map<Integer, ItemStack> returnedItems = player.getInventory().addItem(bookToGive);
-		
-		if (returnedItems.size() > 0) {
-			
-			for (Integer amount : returnedItems.keySet()) {
-				
-				player.getWorld().dropItemNaturally(player.getLocation(), returnedItems.get(amount));
-				
+			if (bookEnchants.size() < 1) {
+				player.sendMessage("There are no enchants on this item!");
+				return true;
 			}
 			
+			int selectedEnchant = genRandomInt(bookEnchants.size());
+			
+			if (!player.getInventory().containsAtLeast(new ItemStack(Material.BOOK), 1)) {
+				player.sendMessage("You need a book to store the enchant");
+				return true;
+			}
+			
+			Iterator<Map.Entry<Enchantment, Integer>> it = bookEnchants.entrySet().iterator();
+			int i = 0;
+
+			Map.Entry<Enchantment, Integer> pair = null;
+
+			while (it.hasNext()) {
+
+				pair = (Map.Entry<Enchantment, Integer>) it.next();
+
+				if (selectedEnchant <= i)
+					break;
+
+				i++;
+
+			}
+
+			ItemStack bookToGive = new ItemStack(Material.ENCHANTED_BOOK, 1);
+			bookToGive.getItemMeta().addEnchant(pair.getKey(), pair.getValue(), true);
+
+			EnchantmentStorageMeta newBookMeta = (EnchantmentStorageMeta) bookToGive.getItemMeta();
+			newBookMeta.addStoredEnchant(pair.getKey(), pair.getValue(), true);
+			bookToGive.setItemMeta(newBookMeta);
+
+			player.getInventory().removeItem(new ItemStack(Material.BOOK, 1));
+			bookMeta.removeStoredEnchant(pair.getKey());
+			
+			inHand.setItemMeta(bookMeta);
+			
+			Map<Integer, ItemStack> returnedItems = player.getInventory().addItem(bookToGive);
+
+			if (returnedItems.size() > 0) {
+
+				for (Integer amount : returnedItems.keySet()) {
+
+					player.getWorld().dropItemNaturally(player.getLocation(), returnedItems.get(amount));
+
+				}
+
+			}
+			
+		} else {
+
+			int selectedEnchant = genRandomInt(enchantments.size());
+
+			if (!player.getInventory().containsAtLeast(new ItemStack(Material.BOOK), 1)) {
+				player.sendMessage("You need a book to store the enchant");
+				return true;
+			}
+
+			Iterator<Map.Entry<Enchantment, Integer>> it = enchantments.entrySet().iterator();
+			int i = 0;
+
+			Map.Entry<Enchantment, Integer> pair = null;
+
+			while (it.hasNext()) {
+
+				pair = (Map.Entry<Enchantment, Integer>) it.next();
+
+				if (selectedEnchant <= i)
+					break;
+
+				i++;
+
+			}
+
+			ItemStack bookToGive = new ItemStack(Material.ENCHANTED_BOOK, 1);
+			bookToGive.getItemMeta().addEnchant(pair.getKey(), pair.getValue(), true);
+
+			EnchantmentStorageMeta bookMeta = (EnchantmentStorageMeta) bookToGive.getItemMeta();
+			bookMeta.addStoredEnchant(pair.getKey(), pair.getValue(), true);
+			bookToGive.setItemMeta(bookMeta);
+
+			player.getInventory().removeItem(new ItemStack(Material.BOOK, 1));
+			inHand.removeEnchantment(pair.getKey());
+
+			Map<Integer, ItemStack> returnedItems = player.getInventory().addItem(bookToGive);
+
+			if (returnedItems.size() > 0) {
+
+				for (Integer amount : returnedItems.keySet()) {
+
+					player.getWorld().dropItemNaturally(player.getLocation(), returnedItems.get(amount));
+
+				}
+
+			}
+
 		}
-		
 		return true;
 	}
 
 	private int genRandomInt(int max) {
-		
+
 		Random rand = new Random(System.currentTimeMillis());
-		
+
 		return rand.nextInt(max);
-		
+
 	}
-	
+
 }

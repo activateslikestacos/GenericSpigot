@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
@@ -58,6 +59,7 @@ public class FreeRepair extends JavaPlugin {
 		this.generateIce();
 		this.generateQuartz();
 		this.generateHaste();
+		this.generateLeather();
 		
 		this.getLogger().info("This is a test!\n");
 		
@@ -189,6 +191,16 @@ public class FreeRepair extends JavaPlugin {
 		fromSpeedPotion.addIngredient(Material.SUGAR);
 		
 		this.getServer().addRecipe(fromSpeedPotion);
+		
+	}
+	
+	public void generateLeather() {
+		
+		ItemStack leather = new ItemStack(Material.LEATHER, 1);
+		
+		FurnaceRecipe fromFlesh = new FurnaceRecipe(new NamespacedKey(this, "from_flesh"), leather, Material.ROTTEN_FLESH, 10000.0F, 1);
+		
+		this.getServer().addRecipe(fromFlesh);
 		
 	}
 	
