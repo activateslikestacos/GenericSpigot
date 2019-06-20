@@ -18,19 +18,13 @@ public class SetPVPCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		
-		if (!(sender instanceof Player)) {
-			sender.sendMessage("You can only run this as a player!");
-			return true;
-		}
 		
-		Player player = (Player) sender;
-		
-		if (!player.getName().equalsIgnoreCase("activates")) {
+		if (sender instanceof Player && !((Player)sender).getName().equalsIgnoreCase("activates")) {
 			return true;
 		}
 		
 		if (args.length < 1) {
-			player.sendMessage("PvP is set to: " + Boolean.toString(plugin.getPVPEnabled()));
+			sender.sendMessage("PvP is set to: " + Boolean.toString(plugin.getPVPEnabled()));
 			return true;
 		}
 		
@@ -39,16 +33,16 @@ public class SetPVPCommand implements CommandExecutor {
 		if (arg.equalsIgnoreCase("on")) {
 			
 			plugin.setPVP(true);
-			player.sendMessage("PvP is set to: " + Boolean.toString(plugin.getPVPEnabled()));
+			sender.sendMessage("PvP is set to: " + Boolean.toString(plugin.getPVPEnabled()));
 			
 		} else if (arg.equalsIgnoreCase("off")) {
 			
 			plugin.setPVP(false);
-			player.sendMessage("PvP is set to: " + Boolean.toString(plugin.getPVPEnabled()));
+			sender.sendMessage("PvP is set to: " + Boolean.toString(plugin.getPVPEnabled()));
 			
 		} else {
 			
-			player.sendMessage("You must specify either on or off");
+			sender.sendMessage("You must specify either on or off");
 			
 		}
 		
