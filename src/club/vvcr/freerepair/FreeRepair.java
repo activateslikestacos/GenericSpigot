@@ -16,10 +16,13 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import club.vvcr.freerepair.listeners.InventoryOpenListener;
+import club.vvcr.freerepair.listeners.PlayerAttackPlayerListener;
 import club.vvcr.freerepair.listeners.PlayerConsumeListener;
+import club.vvcr.freerepair.listeners.PlayerDamageListener;
 import club.vvcr.freerepair.listeners.PlayerDisconnectListener;
 import club.vvcr.freerepair.listeners.PlayerInteractListener;
 import club.vvcr.freerepair.commands.EnchantmentStealCommand;
+import club.vvcr.freerepair.commands.SetPVPCommand;
 import club.vvcr.freerepair.commands.TrashCommand;
 import club.vvcr.freerepair.commands.XPDCommand;
 import club.vvcr.freerepair.listeners.BlockBreakListener;
@@ -30,11 +33,13 @@ import club.vvcr.freerepair.listeners.InventoryCloseListener;
 public class FreeRepair extends JavaPlugin {
 
 	private AnvilHandler anvilHandler;
-
+	private boolean pvpEnabled;
+	
 	@Override
 	public void onEnable() {
 		
 		anvilHandler = new AnvilHandler();
+		pvpEnabled = false;
 		
 		// Register listeners
 		this.getServer().getPluginManager().registerEvents(new InventoryOpenListener(this), this);
@@ -45,11 +50,14 @@ public class FreeRepair extends JavaPlugin {
 		this.getServer().getPluginManager().registerEvents(new PlayerInteractListener(), this);
 		this.getServer().getPluginManager().registerEvents(new PlayerConsumeListener(), this);
 		this.getServer().getPluginManager().registerEvents(new InventoryClickListener(), this);
+		this.getServer().getPluginManager().registerEvents(new PlayerDamageListener(), this);
+		this.getServer().getPluginManager().registerEvents(new PlayerAttackPlayerListener(this), this);
 		
 		// Register commands
 		this.getCommand("xpd").setExecutor(new XPDCommand());
 		this.getCommand("esteal").setExecutor(new EnchantmentStealCommand());
 		this.getCommand("trash").setExecutor(new TrashCommand());
+		this.getCommand("setpvp").setExecutor(new SetPVPCommand(this));
 		
 		// Add custom recipe
 		this.generateEGoldenApple();
@@ -60,6 +68,7 @@ public class FreeRepair extends JavaPlugin {
 		this.generateQuartz();
 		this.generateHaste();
 		this.generateLeather();
+		this.generateString();
 		
 		this.getLogger().info("This is a test!\n");
 		
@@ -202,6 +211,30 @@ public class FreeRepair extends JavaPlugin {
 		
 		this.getServer().addRecipe(fromFlesh);
 		
+	}
+	
+	public void generateString() {
+		
+		ItemStack string = new ItemStack(Material.STRING, 9);
+		
+		ShapelessRecipe fromWool = new ShapelessRecipe(new NamespacedKey(this, "from_string"), string);
+		
+		fromWool.addIngredient(Material.WHITE_WOOL);
+		
+		this.getServer().addRecipe(fromWool);
+		
+	}
+	
+	public void setPVP(boolean pvpEnabled) {
+		
+		this.pvpEnabled = pvpEnabled;
+		
+	}
+	
+	public boolean getPVPEnabled() {
+		
+		return this.pvpEnabled;
+	
 	}
 	
 }

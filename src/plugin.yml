@@ -12,3 +12,6 @@ commands:
     trash:
         description: opens a trash inventory
         usage: /trash
+    setpvp:
+        description: ...
+        usage: /this is a mystery bois
